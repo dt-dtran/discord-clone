@@ -28,9 +28,9 @@ Take a look at the following resources:
 - [Styling](https://ui.shadcn.com/) - to build your component library.
 - [Clerk](https://clerk.com/docs) - to build Auth component
 - [Primsa](https://www.prisma.io/) - to define db schema
-- [PlanetScale](https://planetscale.com/) - to build SQL DB hosted on AWS
+- [PlanetScale](https://planetscale.com/) - to build SQL DB hosted on AWS RDS
   - npx prisma generate || npx prisma db push | npm i @prisma/client | npx prisma studio
-- [UploadThing](https://uploadthing.com/) - File upload functionality
+- [UploadThing](https://uploadthing.com/) - File upload functionality on AWS S3
 
 ## Deploy on Vercel
 
