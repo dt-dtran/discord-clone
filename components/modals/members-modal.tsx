@@ -41,7 +41,7 @@ import {
 const roleIconMap = {
   GUEST: null,
   MODERATOR: <ShieldCheck className="h-4 w-4 ml-2 text-indigo-500" />,
-  ADMIN: <ShieldAlert className="h-4 w-4 text-rose-500" />,
+  ADMIN: <ShieldAlert className="h-4 w-4 ml-2 text-rose-500" />,
 };
 
 export const MembersModal = () => {
@@ -129,7 +129,7 @@ export const MembersModal = () => {
                             <span>Role</span>
                           </DropdownMenuSubTrigger>
                           <DropdownMenuPortal>
-                            <DropdownMenuSubContent>
+                            <DropdownMenuSubContent className="ml-2">
                               <DropdownMenuItem
                                 onClick={() => onRoleChange(member.id, "GUEST")}
                               >
@@ -154,7 +154,11 @@ export const MembersModal = () => {
                           </DropdownMenuPortal>
                         </DropdownMenuSub>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>
+                        <DropdownMenuItem
+                          onClick={() => {
+                            onKick(member.id);
+                          }}
+                        >
                           <Gavel className="w-4 h-4 mr-2" />
                           Kick
                         </DropdownMenuItem>
