@@ -144,14 +144,24 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
               ))}
             </div>
           )}
-          <div className="mb-2">
-            <ServerSection
-              sectionType="channels"
-              channelType={ChannelType.AUDIO}
-              role={role}
-              label="Audio Channels"
-            />
-          </div>
+          {!!audioChannels?.length && (
+            <div className="mb-2">
+              <ServerSection
+                sectionType="channels"
+                channelType={ChannelType.AUDIO}
+                role={role}
+                label="Audio Channels"
+              />
+              {audioChannels?.map((channel) => (
+                <ServerChannel
+                  key={channel.id}
+                  channel={channel}
+                  server={server}
+                  role={role}
+                />
+              ))}
+            </div>
+          )}
           <div className="mb-2">
             <ServerSection
               sectionType="channels"
