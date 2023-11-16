@@ -1,5 +1,4 @@
 import { ChannelType, MemberRole } from "@prisma/client";
-
 import { redirect } from "next/navigation";
 import { currentProfile } from "@/lib/current-profile";
 import { db } from "@/lib/db";
@@ -78,6 +77,8 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
     (member) => member.profileId === profile.id
   )?.role;
 
+  const canCreate = role === MemberRole.ADMIN || MemberRole.MODERATOR;
+
   return (
     <>
       <div className="flex flex-col h-full text-primary w-full dark:bg-[#2B2D31] bg-[#F2F3F5]">
@@ -144,7 +145,16 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
               ))}
             </div>
           )}
-          {!!audioChannels?.length && (
+          {!audioChannels || audioChannels.length === 0 ? (
+            role !== "GUEST" ? (
+              <ServerSection
+                sectionType="channels"
+                channelType={ChannelType.AUDIO}
+                role={role}
+                label="Audio Channels"
+              />
+            ) : null
+          ) : (
             <div className="mb-2">
               <ServerSection
                 sectionType="channels"
@@ -152,7 +162,7 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
                 role={role}
                 label="Audio Channels"
               />
-              {audioChannels?.map((channel) => (
+              {audioChannels.map((channel) => (
                 <ServerChannel
                   key={channel.id}
                   channel={channel}
@@ -162,14 +172,33 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
               ))}
             </div>
           )}
-          <div className="mb-2">
-            <ServerSection
-              sectionType="channels"
-              channelType={ChannelType.VIDEO}
-              role={role}
-              label="Video Channels"
-            />
-          </div>
+          {!videoChannels || videoChannels.length === 0 ? (
+            role !== "GUEST" ? (
+              <ServerSection
+                sectionType="channels"
+                channelType={ChannelType.VIDEO}
+                role={role}
+                label="Video Channels"
+              />
+            ) : null
+          ) : (
+            <div className="mb-2">
+              <ServerSection
+                sectionType="channels"
+                channelType={ChannelType.VIDEO}
+                role={role}
+                label="Video Channels"
+              />
+              {videoChannels?.map((channel) => (
+                <ServerChannel
+                  key={channel.id}
+                  role={role}
+                  channel={channel}
+                  server={server}
+                />
+              ))}
+            </div>
+          )}
           <div className="mb-2">
             <ServerSection
               sectionType="members"
@@ -178,6 +207,7 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
               label="Members"
             />
           </div>
+          <div className="mb-2">{role}</div>
         </ScrollArea>
       </div>
     </>
