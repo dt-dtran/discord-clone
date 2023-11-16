@@ -40,7 +40,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
           <ChevronDown className="h-5 w-5 ml-auto" />
         </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56 text-xs font-medium text-black dark:text-neutral-400 space-y-[2px]">
+      <DropdownMenuContent className="w-56 text-xs font-medium text-zinc-500 dark:text-neutral-400 space-y-[2px]">
         {isModerator && (
           <DropdownMenuItem
             onClick={() => onOpen("invite", { server })}
@@ -81,7 +81,7 @@ export const ServerHeader = ({ server, role }: ServerHeaderProps) => {
         {isAdmin && (
           <DropdownMenuItem
             onClick={() => onOpen("deleteServer", { server })}
-            className="text-rose-500 px-3 py-2 text-sm cursor-pointer focus:text-text-rose-500"
+            className="text-rose-500 px-3 py-2 text-sm cursor-pointer dark:focus:bg-rose-500"
           >
             Delete Server
             <Trash className="h-4 w-4 ml-auto" />
