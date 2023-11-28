@@ -68,9 +68,10 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
   const videoChannels = server?.channels.filter(
     (channel) => channel.type === ChannelType.VIDEO
   );
-  const members = server?.members.filter(
-    (member) => member.profileId !== profile.id
-  );
+  const members = server?.members;
+  // .filter(
+  //   (member) => member.profileId !== profile.id
+  // );
 
   if (!server) {
     return redirect("/");
@@ -227,7 +228,6 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
               </div>
             </div>
           )}
-          <div className="mb-2">{role} -delete this later</div>
         </ScrollArea>
       </div>
     </>
