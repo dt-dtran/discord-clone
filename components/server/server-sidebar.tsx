@@ -11,6 +11,7 @@ import { ServerSection } from "./server-section";
 import { Hash, Mic, Crown, ShieldCheck, Video } from "lucide-react";
 import { ServerChannel } from "./server-channel";
 import { ServerMember } from "./server-member";
+import { UserButton } from "@clerk/nextjs";
 
 interface ServerSideBarProps {
   serverId: string;
@@ -229,6 +230,26 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
             </div>
           )}
         </ScrollArea>
+        <div className="text-primary dark:bg-[#1E1F22] bg-[#E3E5E8] p-2">
+          <ul className="divide-y divide-gray-200">
+            <li className="flex">
+              <UserButton
+                afterSignOutUrl="/"
+                appearance={{
+                  elements: {
+                    avatarBox: "flex-shrink-0 h-[36px] w-[36px]",
+                  },
+                }}
+              />
+              <div className="ml-3 dark:text-zinc-300 text-zinc-600">
+                <p className="text-sm md:text-md text-gray-300">
+                  {profile.name}
+                </p>
+                <p className="text-xs md:text-sm">{profile.email}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </>
   );
