@@ -74,7 +74,7 @@ export const ServerChannel = ({
         </div>
       )}
       {channel.name === "general" && (
-        <Lock className="ml-auto w-4 h04 text-zinc-500 dark:text-zinc-400" />
+        <Lock className="ml-auto w-4 h-4 text-zinc-500 dark:text-zinc-400" />
       )}
     </button>
   );
