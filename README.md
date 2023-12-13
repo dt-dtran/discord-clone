@@ -31,6 +31,7 @@ Take a look at the following resources:
 - [PlanetScale](https://planetscale.com/) - to build SQL DB hosted on AWS RDS
   - npx prisma generate || npx prisma db push | npm i @prisma/client | npx prisma studio
 - [UploadThing](https://uploadthing.com/) - File upload functionality on AWS S3
+- [SocketIO](https://socket.io/) - to setup webSocket connections
 
 ## Deploy on Vercel
 
