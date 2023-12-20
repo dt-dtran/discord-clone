@@ -86,10 +86,6 @@ export const ChatInput = ({ apiUrl, query, name, type }: ChatInputProps) => {
           )}
         />
       </form>
-      <div>
-        ChatInput
-        <div>stuff</div>
-      </div>
     </Form>
   );
 };
