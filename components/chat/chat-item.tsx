@@ -84,8 +84,8 @@ export const ChatItem = ({
     },
   });
   const isLoading = form.formState.isSubmitting;
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
     try {
       const url = qs.stringifyUrl({
         url: `${socketUrl}/${id}`,
@@ -139,6 +139,8 @@ export const ChatItem = ({
                 alt={content}
                 fill
                 className="object-cover"
+                sizes="(max-width: 600px) 100vw, 50vw"
+                loading="lazy"
               />
             </a>
           )}
