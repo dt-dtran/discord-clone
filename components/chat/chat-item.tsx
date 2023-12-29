@@ -54,8 +54,8 @@ export const ChatItem = ({
   socketUrl,
   socketQuery,
 }: ChatItemProps) => {
-  const [isEditing, setIsEditing] = useState(false);
   const { onOpen } = useModal();
+  const [isEditing, setIsEditing] = useState(false);
   const fileType = fileUrl?.split(".").pop();
   const isAdmin = currentMember.role === MemberRole.ADMIN;
   const isModerator = currentMember.role === MemberRole.MODERATOR;
@@ -76,7 +76,7 @@ export const ChatItem = ({
     return () => window.removeEventListener("keydown", handleKeyDown);
   });
 
-  //editing message form
+  // form to edit message
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
