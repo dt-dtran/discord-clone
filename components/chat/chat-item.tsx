@@ -11,7 +11,16 @@ import { useRouter, useParams } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
 import { UserAvatar } from "@/components/user-avatar";
 import { ActionTooltip } from "@/components/action-tooltip";
-import { Crown, Edit, FileIcon, ShieldCheck, Trash } from "lucide-react";
+import {
+  Crown,
+  Edit,
+  FileIcon,
+  MoreHorizontal,
+  Pin,
+  ShieldCheck,
+  Smile,
+  Trash,
+} from "lucide-react";
 import Image from "next/image";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -56,9 +65,12 @@ export const ChatItem = ({
   socketUrl,
   socketQuery,
 }: ChatItemProps) => {
+  // console.log(`i ${id} : ${pinned}`);
   const { onOpen } = useModal();
   const [isEditing, setIsEditing] = useState(false);
+  const [pin, setPin] = useState(pinned);
   const fileType = fileUrl?.split(".").pop();
+  const isGuest = currentMember.role === MemberRole.GUEST;
   const isAdmin = currentMember.role === MemberRole.ADMIN;
   const isModerator = currentMember.role === MemberRole.MODERATOR;
   const isOwner = currentMember.id === member.id;
@@ -105,6 +117,8 @@ export const ChatItem = ({
         query: socketQuery,
       });
 
+      console.log("avalues", values);
+
       await axios.patch(url, values);
 
       form.reset();
@@ -119,6 +133,23 @@ export const ChatItem = ({
       content: content,
     });
   }, [content]);
+
+  const handlePinUpdate = async () => {
+    try {
+      const url = qs.stringifyUrl({
+        url: `${socketUrl}/${id}`,
+        query: socketQuery,
+      });
+
+      console.log(`pinned: ${pinned} switch: ${!pinned}`);
+
+      await axios.patch(url, { pinned: !pinned });
+
+      setPin(!pinned);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
@@ -227,29 +258,42 @@ export const ChatItem = ({
           )}
         </div>
       </div>
-      {canDeleteMessage && (
-        <div className="hidden group-hover:flex items-center gap-x-2 absolute p-1 -top-2 right-5 bg-white dark:bg-zinc-800 border rounded-sm">
-          {canEditMessage && (
-            <ActionTooltip label="Edit">
-              <Edit
-                onClick={() => setIsEditing(true)}
+      <div className="hidden group-hover:flex items-center gap-x-2 absolute p-1 -top-2 right-5 bg-white dark:bg-zinc-800 border rounded-sm">
+        <ActionTooltip label="Add Reaction">
+          <Smile className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+        </ActionTooltip>
+        {canDeleteMessage && (
+          <>
+            {canEditMessage && (
+              <ActionTooltip label="Edit">
+                <Edit
+                  onClick={() => setIsEditing(true)}
+                  className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
+                />
+              </ActionTooltip>
+            )}
+            <ActionTooltip label="Delete">
+              <Trash
+                onClick={() =>
+                  onOpen("deleteMessage", {
+                    apiUrl: `${socketUrl}/${id}`,
+                    query: socketQuery,
+                  })
+                }
                 className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
               />
             </ActionTooltip>
-          )}
-          <ActionTooltip label="Delete">
-            <Trash
-              onClick={() =>
-                onOpen("deleteMessage", {
-                  apiUrl: `${socketUrl}/${id}`,
-                  query: socketQuery,
-                })
-              }
-              className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
-            />
-          </ActionTooltip>
-        </div>
-      )}
+            {!isGuest && (
+              <ActionTooltip label="Pin Message">
+                <Pin
+                  onClick={() => handlePinUpdate()}
+                  className="cursor-pointer ml-auto w-4 h-4 text-zinc-500 hover:text-zinc-600 dark:hover:text-zinc-300 transition"
+                />
+              </ActionTooltip>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 };
