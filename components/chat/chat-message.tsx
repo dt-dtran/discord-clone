@@ -24,6 +24,7 @@ interface ChatMessagesProps {
   paramKey: "channelId" | "conversationId";
   paramValue: string;
   type: "channel" | "conversation";
+  pinned: boolean;
 }
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
@@ -37,6 +38,7 @@ export const ChatMessages = ({
   paramKey,
   paramValue,
   type,
+  pinned,
 }: ChatMessagesProps) => {
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
@@ -63,6 +65,9 @@ export const ChatMessages = ({
     shouldLoadMore: !isFetchingNextPage && !!hasNextPage,
     count: data?.pages?.[0]?.items?.length ?? 0,
   });
+
+  // has pinned messages
+  console.log("data.pages", data?.pages);
 
   if (status === "loading") {
     return (
@@ -117,6 +122,7 @@ export const ChatMessages = ({
                 fileUrl={message.fileUrl}
                 deleted={message.deleted}
                 isUpdated={message.updatedAt !== message.createdAt}
+                pinned={message.pinned}
                 timestamp={format(new Date(message.updatedAt), DATE_FORMAT)}
                 socketUrl={socketUrl}
                 socketQuery={socketQuery}

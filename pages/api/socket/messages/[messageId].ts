@@ -15,7 +15,7 @@ export default async function handler(
   try {
     const profile = await currentProfilePages(req);
     const { messageId, serverId, channelId } = req.query;
-    const { content } = req.body;
+    const { content, pinned } = req.body;
 
     if (!profile) {
       return res.status(401).json({ error: "Unauthorized" });
@@ -114,13 +114,19 @@ export default async function handler(
     }
 
     if (req.method === "PATCH") {
+      let updateData = {};
+
+      if (content !== undefined) {
+        updateData = { content };
+      } else if (pinned !== undefined) {
+        updateData = { pinned };
+      }
+
       message = await db.message.update({
         where: {
           id: messageId as string,
         },
-        data: {
-          content: content,
-        },
+        data: updateData,
         include: {
           member: {
             include: {
