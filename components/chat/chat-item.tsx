@@ -28,6 +28,7 @@ interface ChatItemProps {
   currentMember: Member;
   deleted: boolean;
   isUpdated: boolean;
+  pinned: boolean;
   socketUrl: string;
   socketQuery: Record<string, string>;
 }
@@ -50,6 +51,7 @@ export const ChatItem = ({
   fileUrl,
   currentMember,
   deleted,
+  pinned,
   isUpdated,
   socketUrl,
   socketQuery,
