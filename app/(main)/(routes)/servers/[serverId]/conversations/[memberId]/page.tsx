@@ -70,7 +70,7 @@ const MemberIdPage = async ({ params }: MemberIdPageProps) => {
       <ChatInput
         name={otherMember.profile.name}
         type="conversation"
-        apiUrl="/api/socjet/direct-messages"
+        apiUrl="/api/socket/direct-messages"
         query={{
           conversationId: conversation.id,
         }}
