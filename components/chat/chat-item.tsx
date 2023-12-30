@@ -65,7 +65,7 @@ export const ChatItem = ({
   socketUrl,
   socketQuery,
 }: ChatItemProps) => {
-  // console.log(`i ${id} : ${pinned}`);
+  console.log(`i ${id} : ${pinned}`);
   const { onOpen } = useModal();
   const [isEditing, setIsEditing] = useState(false);
   const [pin, setPin] = useState(pinned);
@@ -117,8 +117,6 @@ export const ChatItem = ({
         query: socketQuery,
       });
 
-      console.log("avalues", values);
-
       await axios.patch(url, values);
 
       form.reset();
@@ -140,8 +138,6 @@ export const ChatItem = ({
         url: `${socketUrl}/${id}`,
         query: socketQuery,
       });
-
-      console.log(`pinned: ${pinned} switch: ${!pinned}`);
 
       await axios.patch(url, { pinned: !pinned });
 

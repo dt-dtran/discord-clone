@@ -24,7 +24,6 @@ interface ChatMessagesProps {
   paramKey: "channelId" | "conversationId";
   paramValue: string;
   type: "channel" | "conversation";
-  pinned: boolean;
 }
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
@@ -38,7 +37,6 @@ export const ChatMessages = ({
   paramKey,
   paramValue,
   type,
-  pinned,
 }: ChatMessagesProps) => {
   const queryKey = `chat:${chatId}`;
   const addKey = `chat:${chatId}:messages`;
