@@ -58,6 +58,7 @@ model Member {
 
   messages Message[]
   directMessages DirectMessage[]
+  reactions Reaction[]
 
   conversationsInitiated Conversation[] @relation("MemberOne")
   conversationsReceived Conversation[] @relation("MemberTwo")
@@ -113,6 +114,9 @@ model Message {
   channelId String
   channel Channel @relation(fields: [channelId], references: [id], onDelete: Cascade)
 
+  reactions Reaction[]
+  reactionCounts ReactionCount[]
+
   pinned Boolean @default(false)
   deleted Boolean @default(false)
 
@@ -149,6 +153,10 @@ model DirectMessage {
   conversationId String
   conversation Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
 
+  reactions Reaction[]
+  reactionCounts ReactionCount[]
+
+  pinned Boolean @default(false)
   deleted Boolean @default(false)
 
   createdAt DateTime @default(now())
@@ -158,19 +166,50 @@ model DirectMessage {
   @@index([conversationId])
 }
 
-// model Reaction {
-//   id String @id @default(uuid())
-//   emoji String
+model Reaction {
+  id String @id @default(uuid())
+  emoji String
+  type String?
 
-//   memberId String
-//   member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
+  memberId String
+  member Member @relation(fields: [memberId], references: [id], onDelete: Cascade)
 
-//   messageId String
-//   message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  messageId String
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
 
-//   createdAt DateTime @default(now())
-//   updatedAt DateTime @updatedAt
+  directMessageId String
+  directMessage DirectMessage @relation(fields: [directMessageId], references: [id], onDelete: Cascade)
 
-//   @@index([memberId])
-//   @@index([messageId])
-// }
+  reactionCountId String?
+  reactionCount ReactionCount? @relation(fields: [reactionCountId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([memberId])
+  @@index([messageId])
+  @@index([directMessageId])
+  @@index([reactionCountId])
+
+  @@unique([emoji, messageId, memberId])
+  @@unique([emoji, directMessageId, memberId])
+}
+
+model ReactionCount {
+  id String @id @default(uuid())
+  emoji String
+  count Int @default(0)
+
+  messageId String
+  message Message @relation(fields: [messageId], references: [id], onDelete: Cascade)
+
+  directMessageId String
+  directMessage DirectMessage @relation(fields: [directMessageId], references: [id], onDelete: Cascade)
+
+  reactions Reaction[]
+
+  @@index([messageId])
+  @@index([directMessageId])
+  @@unique([emoji, messageId])
+  @@unique([emoji, directMessageId])
+}

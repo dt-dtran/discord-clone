@@ -69,10 +69,9 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
   const videoChannels = server?.channels.filter(
     (channel) => channel.type === ChannelType.VIDEO
   );
-  const members = server?.members;
-  // .filter(
-  //   (member) => member.profileId !== profile.id
-  // );
+  const members = server?.members.filter(
+    (member) => member.profileId !== profile.id
+  );
 
   if (!server) {
     return redirect("/");
