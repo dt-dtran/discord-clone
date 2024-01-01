@@ -12,6 +12,7 @@ import { Hash, Mic, Crown, ShieldCheck, Video } from "lucide-react";
 import { ServerChannel } from "./server-channel";
 import { ServerMember } from "./server-member";
 import { UserButton } from "@clerk/nextjs";
+import { SocketIndicator } from "../socket-indicator";
 
 interface ServerSideBarProps {
   serverId: string;
@@ -241,10 +242,10 @@ export const ServerSidebar = async ({ serverId }: ServerSideBarProps) => {
                 }}
               />
               <div className="ml-3 dark:text-zinc-300 text-zinc-600">
-                <p className="text-sm md:text-md text-gray-300">
+                <p className="text-sm md:text-md dark:text-zinc-300 text-zinc-600">
                   {profile.name}
                 </p>
-                <p className="text-xs md:text-sm">{profile.email}</p>
+                <p className="text-xs md:text-sm">Online</p>
               </div>
             </li>
           </ul>
