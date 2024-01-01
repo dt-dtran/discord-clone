@@ -54,7 +54,6 @@ export const ServerMember = ({ member, server }: ServerMemberProps) => {
             {member.profile.name}
           </p>
           {icon}
-          {server.profileId == member.profile.id && <Dot className="h-4 w-4" />}
         </button>
       </ActionTooltip>
     </div>
