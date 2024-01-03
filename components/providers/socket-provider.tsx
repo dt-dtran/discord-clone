@@ -24,7 +24,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     let url = ""; // blank = dev
     if (process.env.NODE_ENV === "production") {
-      url = process.env.NODE_ENV;
+      url = process.env.NEXT_PUBLIC_SITE_URL!;
     }
 
     const socketInstance = new (ClientIO as any)(url, {
