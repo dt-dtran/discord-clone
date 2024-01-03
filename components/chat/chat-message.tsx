@@ -65,7 +65,7 @@ export const ChatMessages = ({
   });
 
   // has pinned messages
-  console.log("data.pages", data?.pages);
+  // console.log("data.pages", data?.pages);
 
   if (status === "loading") {
     return (
