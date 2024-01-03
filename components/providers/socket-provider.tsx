@@ -31,13 +31,16 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       path: "/api/socket/io",
       addTrailingSlash: false,
       withCredentials: true,
+      debug: true,
     });
 
     socketInstance.on("connect", () => {
+      console.log("client connected to server");
       setIsConnected(true);
     });
 
     socketInstance.on("disconnect", () => {
+      console.log("client disconnected to server");
       setIsConnected(false);
     });
 

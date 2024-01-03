@@ -18,13 +18,14 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
       path: path,
       addTrailingSlash: false,
       cors: {
-        origin: [
-          `${process.env.NEXT_PUBLIC_URL}`,
-          "http://localhost:8080",
-          "http://localhost:3000",
-          `https://${process.env.NEXT_PUBLIC_URL}`,
-          `http://${process.env.NEXT_PUBLIC_URL}`,
-        ],
+        origin: "*",
+        // origin: [
+        //   `${process.env.NEXT_PUBLIC_URL}`,
+        //   "http://localhost:8080",
+        //   "http://localhost:3000",
+        //   `https://${process.env.NEXT_PUBLIC_URL}`,
+        //   `http://${process.env.NEXT_PUBLIC_URL}`,
+        // ],
         allowedHeaders: ["Content-Type", "Authorization", "Accept"],
         credentials: true,
       },
