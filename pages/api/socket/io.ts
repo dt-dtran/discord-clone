@@ -18,15 +18,26 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
       addTrailingSlash: false,
       cors: {
         origin: process.env.NEXT_PUBLIC_URL,
+        allowedHeaders: ["Content-Type", "Authorization", "Accept"],
+        credentials: true,
       },
     });
+
+    res.socket.server.io = io;
+
     // console.log(io);
-    io.on("connection", function (socket) {
-      socket.on("SOCKET_RECEIVED", ({ notification }) => {
-        io.emit(`SOCKET_RECEIVED`, notification);
+    io.on("connection", (socket) => {
+      console.log("a user connected");
+
+      socket.on("message", (message) => {
+        console.log(message);
+        io.emit("message", `${socket.id}: ${message}`);
       });
     });
-    res.socket.server.io = io;
+
+    httpServer.listen(8080, () => {
+      console.log("server is listening at port 8080");
+    });
   }
   res.end();
 };

@@ -14,6 +14,7 @@ const SocketContext = createContext<SocketContextType>({
 });
 
 export const useSocket = () => {
+  console.log(`SocketContext: ${SocketContext}`);
   return useContext(SocketContext);
 };
 
@@ -27,8 +28,11 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
       {
         path: "/api/socket/io",
         addTrailingSlash: false,
+        withCredentials: true,
       }
     );
+
+    console.log(`socketInstance: ${socketInstance}`);
 
     socketInstance.on("connect", () => {
       setIsConnected(true);
@@ -41,6 +45,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
     setSocket(socketInstance);
 
     return () => {
+      console.log("client disconnecting");
       socketInstance.disconnect();
     };
   }, []);
