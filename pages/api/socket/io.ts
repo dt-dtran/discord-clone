@@ -13,11 +13,20 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
   if (!res.socket.server.io) {
     const path = "/api/socket/io";
     const httpServer: NetServer = res.socket.server as any;
+
+    httpServer.listen(8080, () => {
+      console.log("server is listening at port 8080");
+    });
+
     const io = new ServerIO(httpServer, {
       path: path,
       addTrailingSlash: false,
       cors: {
-        origin: process.env.NEXT_PUBLIC_URL,
+        origin: [
+          `${process.env.NEXT_PUBLIC_URL}`,
+          "http://localhost:8080",
+          `https://${process.env.NEXT_PUBLIC_URL}`,
+        ],
         allowedHeaders: ["Content-Type", "Authorization", "Accept"],
         credentials: true,
       },
@@ -35,8 +44,8 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
       });
     });
 
-    httpServer.listen(8080, () => {
-      console.log("server is listening at port 8080");
+    res.socket.server.listen(8080, () => {
+      console.log("res server is listening at port 8080");
     });
   }
   res.end();
