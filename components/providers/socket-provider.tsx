@@ -14,7 +14,6 @@ const SocketContext = createContext<SocketContextType>({
 });
 
 export const useSocket = () => {
-  console.log(`SocketContext: ${JSON.stringify(SocketContext)}`);
   return useContext(SocketContext);
 };
 
@@ -23,16 +22,16 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketInstance = new (ClientIO as any)(
-      process.env.NEXT_PUBLIC_SITE_URL!,
-      {
-        path: "/api/socket/io",
-        addTrailingSlash: false,
-      },
-      { withCredentials: true }
-    );
+    let url = ""; // blank = dev
+    if (process.env.NODE_ENV === "production") {
+      url = process.env.NODE_ENV;
+    }
 
-    console.log(`socketInstance: ${JSON.stringify(socketInstance)}`);
+    const socketInstance = new (ClientIO as any)(url, {
+      path: "/api/socket/io",
+      addTrailingSlash: false,
+      withCredentials: true,
+    });
 
     socketInstance.on("connect", () => {
       setIsConnected(true);

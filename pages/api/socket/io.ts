@@ -14,10 +14,6 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
     const path = "/api/socket/io";
     const httpServer: NetServer = res.socket.server as any;
 
-    httpServer.listen(8080, () => {
-      console.log("server is listening at port 8080");
-    });
-
     const io = new ServerIO(httpServer, {
       path: path,
       addTrailingSlash: false,
@@ -25,7 +21,9 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
         origin: [
           `${process.env.NEXT_PUBLIC_URL}`,
           "http://localhost:8080",
+          "http://localhost:3000",
           `https://${process.env.NEXT_PUBLIC_URL}`,
+          `http://${process.env.NEXT_PUBLIC_URL}`,
         ],
         allowedHeaders: ["Content-Type", "Authorization", "Accept"],
         credentials: true,
@@ -33,20 +31,6 @@ const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
     });
 
     res.socket.server.io = io;
-
-    // console.log(io);
-    io.on("connection", (socket) => {
-      console.log("a user connected");
-
-      socket.on("message", (message) => {
-        console.log(message);
-        io.emit("message", `${socket.id}: ${message}`);
-      });
-    });
-
-    res.socket.server.listen(8080, () => {
-      console.log("res server is listening at port 8080");
-    });
   }
   res.end();
 };

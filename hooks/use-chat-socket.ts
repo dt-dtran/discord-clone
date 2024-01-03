@@ -23,12 +23,6 @@ export const useChatSocket = ({
   const { socket } = useSocket();
   const queryClient = useQueryClient();
 
-  console.log(
-    `SOCKET: ${JSON.stringify(socket)}, queryClient: ${JSON.stringify(
-      queryClient
-    )}, queryKey ${queryKey}`
-  );
-
   useEffect(() => {
     if (!socket) {
       return;
