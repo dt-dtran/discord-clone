@@ -65,7 +65,7 @@ export const ChatItem = ({
   socketUrl,
   socketQuery,
 }: ChatItemProps) => {
-  console.log(`i ${id} : ${pinned}`);
+  // console.log(`i ${id} : ${pinned}`);
   const { onOpen } = useModal();
   const [isEditing, setIsEditing] = useState(false);
   const [pin, setPin] = useState(pinned);
@@ -130,7 +130,7 @@ export const ChatItem = ({
     form.reset({
       content: content,
     });
-  }, [content]);
+  }, [content, form]);
 
   const handlePinUpdate = async () => {
     try {
